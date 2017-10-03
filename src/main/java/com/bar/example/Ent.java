@@ -1,8 +1,12 @@
 package com.bar.example;
 
+import org.springframework.data.annotation.Id;
+
 public class Ent {
-    private String f;
+
+    @Id
     private Integer s;
+    private String f;
 
     public Ent(String f, Integer s) {
         this.f = f;
