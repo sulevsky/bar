@@ -1,4 +1,4 @@
 spring:
   data:
     mongodb:
-      uri: MONGODB_URI
+      uri: mongodb://vova:test@ds161194.mlab.com:61194/heroku_14x1d1bz
