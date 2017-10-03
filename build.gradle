@@ -1,0 +1,72 @@
+buildscript {
+    ext {
+        springBootVersion = '1.5.7.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath 'org.hidetake:gradle-ssh-plugin:2.9.0'
+        classpath 'se.transmode.gradle:gradle-docker:1.2'
+    }
+}
+
+plugins {
+    id 'pl.allegro.tech.build.axion-release' version '1.7.1'
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'docker'
+apply plugin: 'org.hidetake.ssh'
+apply plugin: 'org.springframework.boot'
+
+scmVersion {
+    versionCreator 'versionWithBranch'
+}
+
+version = scmVersion.version
+sourceCompatibility = 1.8
+springBoot.executable = true
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    springCloudVersion = 'Dalston.SR3'
+}
+
+jar {
+    baseName = 'registration-service'
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+//task buildDocker(type: Docker, dependsOn: build) {
+//    applicationName = jar.baseName
+//    dockerfile = file('src/main/docker/Dockerfile')
+//    tagVersion = version
+//    push = true
+//    tag = dockerImageBase
+//    doFirst {
+//        copy {
+//            from jar
+//            into stageDir
+//        }
+//    }
+//}
+//
+
