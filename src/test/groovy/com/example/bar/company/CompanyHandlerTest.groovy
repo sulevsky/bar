@@ -2,81 +2,70 @@ package com.example.bar.company
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.context.ApplicationContext
 import org.springframework.http.MediaType
-import org.springframework.test.web.reactive.server.WebTestClient
-import reactor.core.publisher.Mono
+import org.springframework.test.web.servlet.MockMvc
 import spock.lang.Specification
 
+import static org.hamcrest.Matchers.hasSize
+import static org.hamcrest.Matchers.is
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+
 @SpringBootTest
-
+@AutoConfigureMockMvc
 class CompanyHandlerTest extends Specification {
-    WebTestClient client
-
+    @Autowired
+    MockMvc mockMvc
     @Autowired
     ObjectMapper mapper
-
-    @Autowired
-    ApplicationContext applicationContext
-
     @Autowired
     CompanyRepository companyRepository
 
-    def setup() {
-        client = WebTestClient.bindToApplicationContext(applicationContext).build()
-    }
-
     def cleanup() {
-        companyRepository.deleteAll().block()
+        companyRepository.deleteAll()
     }
 
     def "create company"() {
         given:
-        Mono<String> body = Mono.just(new Company(name: "honda",
-                                                  owner: "suichiro"))
-                                .map { mapper.writeValueAsString(it) }
+        def body = mapper.writeValueAsString(new Company(name: "honda", owner: "suichiro"))
 
         expect:
-        client.post().uri("/companies")
-              .contentType(MediaType.APPLICATION_JSON)
-              .body(body, String.class)
-              .exchange()
-              .expectStatus().isCreated()
 
+        mockMvc.perform(post("/companies")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(body))
+               .andExpect(status().isCreated())
+
+        companyRepository.findAll().size() == 1
     }
 
     def "read company"() {
         given:
-        def companyId = companyRepository.save(new Company(name: "honda", owner: "suichiro")).block().id
+        def companyId = companyRepository.save(new Company(name: "honda", owner: "suichiro")).id
 
         expect:
 
-        Company company = client.get().uri("/companies/{id}", companyId)
-                                .accept(MediaType.APPLICATION_JSON)
-                                .exchange()
-                                .expectStatus().isOk()
-                                .expectBody(Company.class)
-                                .returnResult()
-                                .responseBody
-
-        company.name == "honda"
-        company.owner == "suichiro"
+        mockMvc.perform(get("/companies/{id}", companyId)
+                                .accept(MediaType.APPLICATION_JSON))
+               .andExpect(status().isOk())
+               .andExpect(jsonPath('$.name', is("honda")))
+               .andExpect(jsonPath('$.owner', is("suichiro")))
     }
 
     def "read all companies"() {
         given:
-        def companyId = companyRepository.save(new Company(name: "honda", owner: "suichiro")).block().id
+        companyRepository.save(new Company(name: "honda", owner: "suichiro"))
 
         expect:
-        List<Company> companies = client.get().uri("/companies")
-                                        .accept(MediaType.APPLICATION_JSON)
-                                        .exchange()
-                                        .expectStatus().isOk()
-                                        .expectBodyList(Company.class)
-                                        .returnResult()
-                                        .responseBody
-        companies.size() == 1
+        mockMvc.perform(get("/companies")
+                                .accept(MediaType.APPLICATION_JSON))
+               .andExpect(status().isOk())
+               .andExpect(jsonPath('$', hasSize(1)))
+               .andExpect(jsonPath('$[0].name', is("honda")))
     }
 
 }

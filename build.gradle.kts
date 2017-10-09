@@ -4,12 +4,12 @@ buildscript {
 
     repositories {
         mavenCentral()
-        maven("https://repo.spring.io/milestone")
-        maven("https://repo.spring.io/snapshot")
     }
 
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.0.M4")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.7.RELEASE")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.51")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:1.1.51")
     }
 }
 
@@ -48,14 +48,13 @@ repositories {
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator")
-    compile("org.springframework.boot:spring-boot-starter-webflux")
-    compile("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
-    compile("org.jetbrains.kotlin:kotlin-stdlib")
-    compile("org.jetbrains.kotlin:kotlin-reflect")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+    compile("org.jetbrains.kotlin:kotlin-stdlib-jre8:1.1.51")
+    compile("org.jetbrains.kotlin:kotlin-reflect:1.1.51")
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
-    testCompile("io.projectreactor:reactor-test")
     testCompile("org.spockframework:spock-core:1.1-groovy-2.4")
     testCompile("org.spockframework:spock-spring:1.1-groovy-2.4")
 }
