@@ -4,12 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import spock.lang.Specification
 
+import static com.example.bar.company.TokenHelper.token
 import static org.hamcrest.Matchers.hasSize
 import static org.hamcrest.Matchers.is
+import static org.springframework.http.HttpHeaders.AUTHORIZATION
+import static org.springframework.http.MediaType.APPLICATION_JSON
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
@@ -36,11 +38,25 @@ class CompanyHandlerTest extends Specification {
         expect:
 
         mockMvc.perform(post("/companies")
-                                .contentType(MediaType.APPLICATION_JSON)
+                                .header(AUTHORIZATION, token("create:company"))
+                                .contentType(APPLICATION_JSON)
                                 .content(body))
                .andExpect(status().isCreated())
 
         companyRepository.findAll().size() == 1
+    }
+
+    def "cannot access with invalid token"() {
+        given:
+        def body = mapper.writeValueAsString(new Company(name: "honda", owner: "suichiro"))
+
+        expect:
+
+        mockMvc.perform(post("/companies")
+                                .header(AUTHORIZATION, token("INVALID_SCOPE"))
+                                .contentType(APPLICATION_JSON)
+                                .content(body))
+               .andExpect(status().isForbidden())
     }
 
     def "read company"() {
@@ -50,7 +66,8 @@ class CompanyHandlerTest extends Specification {
         expect:
 
         mockMvc.perform(get("/companies/{id}", companyId)
-                                .accept(MediaType.APPLICATION_JSON))
+                                .header(AUTHORIZATION, token("read:company"))
+                                .accept(APPLICATION_JSON))
                .andExpect(status().isOk())
                .andExpect(jsonPath('$.name', is("honda")))
                .andExpect(jsonPath('$.owner', is("suichiro")))
@@ -62,7 +79,8 @@ class CompanyHandlerTest extends Specification {
 
         expect:
         mockMvc.perform(get("/companies")
-                                .accept(MediaType.APPLICATION_JSON))
+                                .header(AUTHORIZATION, token("read:companyList"))
+                                .accept(APPLICATION_JSON))
                .andExpect(status().isOk())
                .andExpect(jsonPath('$', hasSize(1)))
                .andExpect(jsonPath('$[0].name', is("honda")))

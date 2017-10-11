@@ -1,17 +1,9 @@
-target/
-out/
-
-
-### IntelliJ IDEA ###
-.idea/
+logs
+out
+.idea
 *.iws
 *.iml
 *.ipr
 .gradletasknamecache
-### NetBeans ###
-nbproject/private/
 build/
-nbbuild/
-dist/
-nbdist/
-.nb-gradle/
+.DS_Store

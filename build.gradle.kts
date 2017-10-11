@@ -47,7 +47,9 @@ repositories {
 }
 
 dependencies {
+    compile("com.auth0:auth0-spring-security-api:1.0.0-rc.3")
     compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.boot:spring-boot-starter-security")
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-data-mongodb")
     compile("org.jetbrains.kotlin:kotlin-stdlib-jre8:1.1.51")
