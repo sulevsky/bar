@@ -2,6 +2,7 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:12345/test
+  jackson.serialization.indent_output: true
 
 auth0:
     issuer: https://b741c6db15e1.eu.auth0.com/

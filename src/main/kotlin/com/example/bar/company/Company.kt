@@ -19,7 +19,7 @@ interface CompanyRepository : MongoRepository<Company, String>
 
 @RestController
 @RequestMapping("/companies")
-class CompanyHandler(val companyRepository: CompanyRepository) {
+class CompanyController(val companyRepository: CompanyRepository) {
 
     @PostMapping
     @PreAuthorize("hasAuthority('create:company')")
