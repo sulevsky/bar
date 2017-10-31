@@ -1,0 +1,66 @@
+= Bar application
+
+== API
+
+
+
+=== Company
+
+
+==== Create company
+
+===== Authority
+`create:company`
+
+===== HTTP request
+include::{snippets}/company/create/http-request.adoc[]
+
+===== Request fields
+include::{snippets}/company/create/request-fields.adoc[]
+
+===== HTTP response
+include::{snippets}/company/create/http-response.adoc[]
+
+===== Curl
+include::{snippets}/company/create/curl-request.adoc[]
+
+
+
+==== Read company by ID
+
+===== Authority
+`read:company`
+
+===== HTTP request
+include::{snippets}/company/read-by-id/http-request.adoc[]
+
+===== Path parameter
+include::{snippets}/company/read-by-id/path-parameters.adoc[]
+
+===== HTTP response
+include::{snippets}/company/read-by-id/http-response.adoc[]
+
+===== Response fields
+include::{snippets}/company/read-by-id/response-fields.adoc[]
+
+===== Curl
+include::{snippets}/company/read-by-id/curl-request.adoc[]
+
+
+
+==== Read all companies
+
+===== Authority
+`read:companyList`
+
+===== HTTP request
+include::{snippets}/company/read-all/http-request.adoc[]
+
+===== HTTP response
+include::{snippets}/company/read-all/http-response.adoc[]
+
+===== Response fields
+include::{snippets}/company/read-all/response-fields.adoc[]
+
+===== Curl
+include::{snippets}/company/read-all/curl-request.adoc[]

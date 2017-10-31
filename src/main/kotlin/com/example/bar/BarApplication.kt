@@ -36,7 +36,7 @@ class SecurityConfigurer(val jwtWebSecurityConfigurer: JwtWebSecurityConfigurer)
         jwtWebSecurityConfigurer.configure(http)
                 .authorizeRequests()
                 .anyRequest()
-                .authenticated()
+                .permitAll()
     }
 }
 
