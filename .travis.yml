@@ -5,3 +5,8 @@ script: ./gradlew build
 cache:
   directories:
   - $HOME/.gradle
+deploy:
+  provider: heroku
+  app: bar-startup
+  api_key: $API_KEY
+  skip_cleanup: true
