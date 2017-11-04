@@ -1,7 +1,12 @@
 language: java
+before_install:
+- npm install -g @angular/cli
+- npm install
 jdk:
 - oraclejdk8
-script: ./gradlew build
+script:
+- ./gradlew build
+- ng build --prod
 cache:
   directories:
   - $HOME/.gradle
