@@ -1,12 +1,23 @@
 language: java
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
 before_install:
 - npm install -g @angular/cli
 - npm install
 jdk:
 - oraclejdk8
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
 script:
 - ./gradlew build
 - ng build --prod
+- ng e2e
+- ng test --watch=false
 cache:
   directories:
   - $HOME/.gradle
