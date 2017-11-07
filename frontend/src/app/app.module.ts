@@ -1,8 +1,8 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule} from "@angular/router";
 import { NgModule } from "@angular/core";
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
 
 import { routes } from "./app.routes";
 
