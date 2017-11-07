@@ -1,7 +1,23 @@
 language: java
+before_install:
+- npm install -g @angular/cli
+- cd ./frontend && npm install && cd ../
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
 jdk:
 - oraclejdk8
-script: ./gradlew build
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+script:
+- ./gradlew build
+- cd ./frontend && ng build --prod && cd ../
+- cd ./frontend && ng e2e && cd ../
+- cd ./frontend && ng test --watch=false && cd ../
 cache:
   directories:
   - $HOME/.gradle

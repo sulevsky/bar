@@ -1,0 +1,25 @@
+.auth {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  .auth-block {
+    width: 80%;
+    height: 80%;
+
+    .form {
+      padding: 15px;
+      width: 500px;
+      float: right;
+      height: 80%;
+      background-color: #eee;
+
+      h3 {
+        text-align: center;
+        text-transform: uppercase;
+      }
+    }
+  }
+}
