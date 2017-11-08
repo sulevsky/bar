@@ -17,6 +17,7 @@ data class Company(
 
 interface CompanyRepository : MongoRepository<Company, String>
 
+@CrossOrigin
 @RestController
 @RequestMapping("/companies")
 class CompanyController(val companyRepository: CompanyRepository) {
