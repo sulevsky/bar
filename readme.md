@@ -4,7 +4,21 @@ Sample project
 
 # Frontend
 
-All commands have to be run inside `frontend` folder
+## Requirements
+
+Both the CLI and generated project have dependencies that require Node 6.9.0 or higher, together with NPM 3 or higher.
+
+To install all dependencies run
+
+```aidl
+npm install -g @angular/cli
+
+cd frontend/
+
+npm install
+```
+
+All commands for CLI have to be run inside `frontend` folder
 
 ## Development server
 
