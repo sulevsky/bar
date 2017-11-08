@@ -9,17 +9,15 @@
     width: 80%;
     height: 80%;
 
-    .form {
-      padding: 15px;
-      width: 500px;
+    .auth-button {
+      padding: 15px 30px;
       float: right;
-      height: 80%;
-      background-color: #eee;
-
-      h3 {
-        text-align: center;
-        text-transform: uppercase;
-      }
+      background-color: #3c9eee;
+      border: 0;
+      color: #fff;
+      text-transform: uppercase;
+      font-weight: 700;
+      cursor: pointer;
     }
   }
 }
